@@ -22,17 +22,20 @@
       border: 1px solid black;
       padding: 10px;
       text-align: center;
+      width: 33.33%;  /* Added this line */
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Task Timer</h1>
-    <p class="timer">Timer not started</p>
-    <input type="text" id="taskInput" placeholder="Enter task">
-    <br>
+    <p class="timer">Timer not started</p><br>
     <button id="startBtn">Start</button>
+    <br><br>
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <br><br>
     <button id="lapBtn">Lap</button>
+    <br><br><br>
     <table class="lap">
       <thead>
         <tr>
@@ -60,7 +63,7 @@
       setInterval(function() {
         var currentTime = new Date().getTime();
         var elapsedTime = currentTime - initialStartTime;
-        document.querySelector('.timer').textContent = 'Time: ' + formatTime(elapsedTime);
+        document.querySelector('.timer').textContent = formatTime(elapsedTime);
       }, 1000);
     }
 
