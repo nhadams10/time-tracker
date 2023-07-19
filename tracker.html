@@ -53,7 +53,7 @@
       var currentTime = new Date().getTime();
       var elapsedTime = currentTime - startTime;
       var task = document.getElementById('taskInput').value;
-      lapTimes.push({ startTime: startTime, elapsedTime: elapsedTime, task: task });
+      lapTimes.push({ startTime: currentTime, elapsedTime: elapsedTime, task: task });
 
       var lapInfo = '';
       for (var i = 0; i < lapTimes.length; i++) {
