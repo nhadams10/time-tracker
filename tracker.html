@@ -12,8 +12,16 @@
       margin-bottom: 10px;
     }
     .lap {
-      font-size: 16px;
       margin-bottom: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: center;
     }
   </style>
 </head>
@@ -21,11 +29,21 @@
   <div class="container">
     <h1>Task Timer</h1>
     <p class="timer">Timer not started</p>
-    <p class="lap"></p>
     <input type="text" id="taskInput" placeholder="Enter task">
     <br>
     <button id="startBtn">Start</button>
     <button id="lapBtn">Lap</button>
+    <table class="lap">
+      <thead>
+        <tr>
+          <th>Start Time</th>
+          <th>Elapsed Time</th>
+          <th>Task</th>
+        </tr>
+      </thead>
+      <tbody id="lapData">
+      </tbody>
+    </table>
   </div>
 
   <script>
@@ -57,14 +75,15 @@
       var task = document.getElementById('taskInput').value;
       lapTimes.push({ startTime: currentTime, elapsedTime: elapsedTime, task: task });
 
-      var lapInfo = '';
+      var lapData = document.getElementById('lapData');
+      lapData.innerHTML = '';
       for (var i = 0; i < lapTimes.length; i++) {
-        lapInfo += 'Start Time: ' + formatMilitaryTime(lapTimes[i].startTime) +
-                   ', Elapsed Time: ' + formatTime(lapTimes[i].elapsedTime) +
-                   ', Task: ' + lapTimes[i].task + '<br>';
+        var row = document.createElement('tr');
+        row.innerHTML = '<td>' + formatMilitaryTime(lapTimes[i].startTime) + '</td>' +
+                        '<td>' + formatTime(lapTimes[i].elapsedTime) + '</td>' +
+                        '<td>' + lapTimes[i].task + '</td>';
+        lapData.appendChild(row);
       }
-
-      document.querySelector('.lap').innerHTML = lapInfo;
 
       // Update lastLapTime to current time for next lap
       lastLapTime = currentTime;
