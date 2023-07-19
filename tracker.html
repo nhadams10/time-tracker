@@ -57,7 +57,7 @@
 
       var lapInfo = '';
       for (var i = 0; i < lapTimes.length; i++) {
-        lapInfo += 'Start Time: ' + formatTime(lapTimes[i].startTime) +
+        lapInfo += 'Start Time: ' + formatMilitaryTime(lapTimes[i].startTime) +
                    ', Elapsed Time: ' + formatTime(lapTimes[i].elapsedTime) +
                    ', Task: ' + lapTimes[i].task + '<br>';
       }
@@ -70,6 +70,19 @@
       var minutes = Math.floor(totalSeconds / 60);
       var seconds = totalSeconds % 60;
       return minutes + 'm ' + seconds + 's';
+    }
+
+    function formatMilitaryTime(timestamp) {
+      var date = new Date(timestamp);
+      var hours = date.getHours();
+      var minutes = Math.round(date.getMinutes() / 1) * 1; // Rounding to the nearest minute
+      if (minutes === 60) {
+        hours++;
+        minutes = 0;
+      }
+      var formattedHours = hours < 10 ? '0' + hours : hours;
+      var formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+      return formattedHours + ':' + formattedMinutes;
     }
 
     document.getElementById('startBtn').addEventListener('click', startTimer);
