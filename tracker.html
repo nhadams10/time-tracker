@@ -29,51 +29,46 @@
   </div>
 
   <script>
-    var startTime;
+    var initialStartTime;
+    var lastLapTime;
     var lapTimes = [];
 
     function startTimer() {
-      startTime = new Date().getTime();
+      initialStartTime = new Date().getTime();
+      lastLapTime = initialStartTime;
       document.querySelector('.timer').textContent = 'Timer started';
 
       // Update timer display every second
       setInterval(function() {
         var currentTime = new Date().getTime();
-        var elapsedTime = currentTime - startTime;
+        var elapsedTime = currentTime - initialStartTime;
         document.querySelector('.timer').textContent = 'Time: ' + formatTime(elapsedTime);
       }, 1000);
     }
 
     function lapTimer() {
-  if (!startTime) {
-    alert('Please start the timer first.');
-    return;
-  }
+      if (!initialStartTime) {
+        alert('Please start the timer first.');
+        return;
+      }
 
-  var currentTime = new Date().getTime();
-  var previousLapEndTime = startTime; // Initialize the previous lap end time to the timer start time
-  var elapsedTime = 0;
+      var currentTime = new Date().getTime();
+      var elapsedTime = currentTime - lastLapTime;
+      var task = document.getElementById('taskInput').value;
+      lapTimes.push({ startTime: currentTime, elapsedTime: elapsedTime, task: task });
 
-  if (lapTimes.length > 0) {
-    var previousLap = lapTimes[lapTimes.length - 1];
-    previousLapEndTime = previousLap.startTime + previousLap.elapsedTime;
-  }
+      var lapInfo = '';
+      for (var i = 0; i < lapTimes.length; i++) {
+        lapInfo += 'Start Time: ' + formatMilitaryTime(lapTimes[i].startTime) +
+                   ', Elapsed Time: ' + formatTime(lapTimes[i].elapsedTime) +
+                   ', Task: ' + lapTimes[i].task + '<br>';
+      }
 
-  elapsedTime = currentTime - previousLapEndTime;
+      document.querySelector('.lap').innerHTML = lapInfo;
 
-  var task = document.getElementById('taskInput').value;
-  lapTimes.push({ startTime: currentTime, elapsedTime: elapsedTime, task: task });
-
-  var lapInfo = '';
-  for (var i = 0; i < lapTimes.length; i++) {
-    lapInfo += 'Start Time: ' + formatMilitaryTime(lapTimes[i].startTime) +
-               ', Elapsed Time: ' + formatTime(lapTimes[i].elapsedTime) +
-               ', Task: ' + lapTimes[i].task + '<br>';
-  }
-
-  document.querySelector('.lap').innerHTML = lapInfo;
-}
-
+      // Update lastLapTime to current time for next lap
+      lastLapTime = currentTime;
+    }
 
     function formatTime(milliseconds) {
       var totalSeconds = Math.floor(milliseconds / 1000);
