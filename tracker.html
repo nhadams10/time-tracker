@@ -7,8 +7,12 @@
       text-align: center;
       padding: 20px;
     }
+    h1 {
+      font-weight: normal;
+    }
     .timer {
       font-size: 24px;
+      font-weight: bold;
       margin-bottom: 5px;
     }
     .lap {
@@ -79,6 +83,7 @@
       var currentTime = new Date().getTime();
       var elapsedTime = currentTime - lastLapTime;
       var task = document.getElementById('taskInput').value;
+      task = capitalizeFirstLetterOfWords(task); // Capitalize task input here
       lapTimes.push({ startTime: currentTime, elapsedTime: elapsedTime, task: task });
 
       var lapData = document.getElementById('lapData');
@@ -113,6 +118,13 @@
       var formattedHours = hours < 10 ? '0' + hours : hours;
       var formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
       return formattedHours + ':' + formattedMinutes;
+    }
+
+     // Function to capitalize the first letter of every word
+     function capitalizeFirstLetterOfWords(str) {
+      return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
     }
 
     document.getElementById('startBtn').addEventListener('click', startTimer);
