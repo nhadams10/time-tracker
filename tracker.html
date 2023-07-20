@@ -76,8 +76,8 @@
 
     function lapTimer() {
       if (!initialStartTime) {
-        alert('Please start the timer first.');
-        return;
+      alert('Please start the timer first.');
+      return;
       }
 
       var currentTime = new Date().getTime();
@@ -91,7 +91,7 @@
       for (var i = 0; i < lapTimes.length; i++) {
         var row = document.createElement('tr');
         row.innerHTML = '<td>' + formatMilitaryTime(lapTimes[i].startTime) + '</td>' +
-                        '<td>' + formatTime(lapTimes[i].elapsedTime) + '</td>' +
+                        '<td>' + formatTimeForTable(lapTimes[i].elapsedTime) + '</td>' +
                         '<td>' + lapTimes[i].task + '</td>';
         lapData.appendChild(row);
       }
@@ -104,6 +104,20 @@
       var totalSeconds = Math.floor(milliseconds / 1000);
       var minutes = Math.floor(totalSeconds / 60);
       var seconds = totalSeconds % 60;
+      return minutes + 'm ' + seconds + 's';
+    }
+
+    function formatTimeForTable(milliseconds) {
+      var totalSeconds = Math.floor(milliseconds / 1000);
+      var minutes = Math.floor(totalSeconds / 60);
+      var seconds = totalSeconds % 60;
+
+      // When elapsed time is more than 60 seconds, round to the nearest minute
+      if (totalSeconds > 60) {
+        minutes = Math.round(totalSeconds / 60);
+        seconds = 0;
+      }
+
       return minutes + 'm ' + seconds + 's';
     }
 
